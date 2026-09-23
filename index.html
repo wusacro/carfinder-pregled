@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="hr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Car Finder — pregled</title>
+<link rel="stylesheet" href="leaflet.css">
+<style>
+:root { color-scheme: dark; }
+* { box-sizing: border-box; }
+body { margin:0; background:#020617; color:#e2e8f0;
+  font:14px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif; }
+header { padding:14px 16px; border-bottom:1px solid #1e293b; display:flex;
+  flex-wrap:wrap; gap:10px; align-items:baseline; }
+h1 { font-size:16px; margin:0; font-weight:600; }
+.sivo { color:#94a3b8; font-size:12px; }
+main { padding:16px; }
+button, select, input { font:inherit; }
+button { background:#1e293b; color:#e2e8f0; border:1px solid #334155;
+  border-radius:10px; padding:8px 12px; cursor:pointer; }
+button.aktivan { background:#e2e8f0; color:#0f172a; font-weight:600; }
+input[type=password], input[type=search] { background:#0f172a; color:#e2e8f0;
+  border:1px solid #334155; border-radius:10px; padding:10px 12px; width:100%; }
+table { border-collapse:collapse; width:100%; font-size:12px; }
+.filtri { display:flex; gap:6px; flex-wrap:wrap; align-items:center; margin-bottom:12px; }
+.filtri input[type=number] { width:96px; }
+.filtri input[type=search] { width:200px; }
+.filtri select { background:#0f172a; color:#e2e8f0; border:1px solid #334155;
+  border-radius:10px; padding:9px 10px; }
+.kvacica { display:flex; align-items:center; gap:6px; color:#94a3b8; font-size:13px; }
+/* Prvi stupac ostaje na mjestu pri vodoravnom listanju - na mobitelu je to
+   razlika između tablice koja se da čitati i one koja se ne da. */
+td:first-child, th:first-child { position:sticky; left:0; background:#020617;
+  max-width:260px; overflow:hidden; text-overflow:ellipsis; }
+tr:hover td:first-child { background:#0f172a; }
+.oznaka { color:#fbbf24; font-size:11px; }
+.pad { color:#34d399; }
+.dobro { color:#34d399; }
+.lose { color:#fbbf24; }
+.prazno { color:#475569; }
+.traka { display:inline-block; width:56px; height:5px; border-radius:99px;
+  background:#1e293b; overflow:hidden; vertical-align:middle; }
+.traka > span { display:block; height:100%; background:#64748b; }
+th, td { padding:6px 8px; border-bottom:1px solid #1e293b; white-space:nowrap; }
+th { text-align:left; color:#94a3b8; font-weight:600; cursor:pointer;
+  position:sticky; top:0; background:#020617; }
+th.d { text-align:right; } td.d { text-align:right; font-variant-numeric:tabular-nums; }
+tr:hover td { background:#0f172a; }
+a { color:#7dd3fc; text-decoration:none; }
+#karta { height:65vh; border-radius:14px; margin-bottom:14px; }
+.kartice { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:14px; }
+.prijava { max-width:340px; margin:14vh auto; padding:0 16px; }
+.greska { color:#fca5a5; font-size:13px; margin-top:8px; }
+.omot { overflow:auto; max-height:70vh; border:1px solid #1e293b; border-radius:14px; }
+</style>
+</head>
+<body>
+<div id="prijava" class="prijava" hidden>
+  <h1>Car Finder — pregled</h1>
+  <p class="sivo">Podaci su šifrirani. Upiši lozinku da se otvore.</p>
+  <input id="lozinka" type="password" placeholder="Lozinka" autocomplete="current-password">
+  <p><button id="otkljucaj" style="width:100%;margin-top:8px">Otvori</button></p>
+  <p id="greska" class="greska"></p>
+</div>
+
+<div id="app" hidden>
+  <header>
+    <h1>Car Finder</h1>
+    <span id="izvezeno" class="sivo"></span>
+    <span class="sivo">samo pregled — ništa se ne može mijenjati</span>
+  </header>
+  <main>
+    <div id="kartice" class="kartice"></div>
+    <div class="filtri">
+      <input id="trazi" type="search" placeholder="Traži po naslovu…">
+      <input id="cijenaOd" type="number" placeholder="Cijena od" inputmode="numeric">
+      <input id="cijenaDo" type="number" placeholder="do" inputmode="numeric">
+      <input id="kmOd" type="number" placeholder="km od" inputmode="numeric">
+      <input id="kmDo" type="number" placeholder="do" inputmode="numeric">
+      <select id="pogonF"><option value="">Svaki pogon</option></select>
+      <select id="bojaF"><option value="">Svaka boja</option></select>
+      <label class="kvacica"><input id="samoBezPdv" type="checkbox"> bez PDV-a</label>
+      <button id="ocisti">Očisti</button>
+      <button id="prikaz">Karta</button>
+      <span id="brojac" class="sivo"></span>
+    </div>
+    <div id="karta" hidden></div>
+    <div id="omot" class="omot"><table id="tablica"></table></div>
+  </main>
+</div>
+
+<script src="leaflet.js"></script>
+<script src="pregled.js"></script>
+</body>
+</html>
